@@ -2,14 +2,21 @@
   "name": "markup-project",
   "version": "1.0.0",
   "description": "HTML tag parser and scorer app.",
-  "main": "app.js",
+  "engines": {
+    "node": ">= 7.6.0"
+  },
   "scripts": {
-    "start": "nodemon app.js"
+    "prod": "node ./start.js",
+    "start": "nodemon ./app.js --ignore public/"
   },
   "author": "Jonathan Schneider",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "1.17.1",
+    "connect-flash": "0.1.1",
+    "cookie-parser": "1.4.3",
+    "express": "^4.15.4",
+    "pug": "^2.0.0-rc.3"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
