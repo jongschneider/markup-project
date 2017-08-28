@@ -1,0 +1,17 @@
+{
+  "name": "markup-project",
+  "version": "1.0.0",
+  "description": "HTML tag parser and scorer app.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Schneider",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
