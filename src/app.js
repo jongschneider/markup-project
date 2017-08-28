@@ -1,4 +1,7 @@
+/*jshint esversion: 6 */
+
 const express = require('express');
+const mysql = require('mysql');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -6,8 +9,79 @@ const flash = require('connect-flash');
 const routes = require('./routes/index');
 const errorHandlers = require('./handlers/errorHandlers');
 
+const { dbConfig } = require('./handlers/config');
+
 const app = express();
 const port = process.env.PORT || 7777;
+
+// create mySQL connection
+const db = mysql.createConnection(dbConfig);
+
+// connect to db
+db.connect(err => {
+	if (err) {
+		throw err;
+	}
+	console.log('MySql connected.');
+});
+
+// test route to set up mysql db
+app.get('/createdb', (req, res, next) => {
+	let sql = 'CREATE DATABASE tagmysql';
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		res.send('Database created...');
+	});
+});
+
+// create table
+app.get('/createpoststable', (req, res, next) => {
+	let sql =
+		'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
+	db.query(sql, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		res.send('Posts table created...');
+	});
+});
+
+//add post to poststable
+app.get('/insertpost1', (req, res, next) => {
+	let post = {
+		title: 'Post One',
+		body: 'This is post one.'
+	};
+	let sql = 'INSERT INTO posts SET ?';
+	let query = db.query(sql, post, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		res.send('Posts inserted to table...');
+	});
+});
+
+//add post to poststable
+app.get('/insertpost2', (req, res, next) => {
+	let post = {
+		title: 'Post Two',
+		body: 'Postimus twoimus.'
+	};
+	let sql = 'INSERT INTO posts SET ?';
+	let query = db.query(sql, post, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		res.send('Post2 inserted to table...');
+	});
+});
+
+// select posts from db
+app.get('/getposts', (req, res, next) => {
+	let sql = 'SELECT * FROM posts';
+	let query = db.query(sql, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		res.end(JSON.stringify(result));
+	});
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
