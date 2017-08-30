@@ -9,5 +9,10 @@ block content
   //-     | #{data}
   //- div(style = "white-space:PRE")
     //- | #{data}
-  each file in data
-      li #{file}
+  form
+    select(name='select')
+      option(default=true) Choose a File
+      each file in data
+        option(value=file) #{file}
+  
+  
