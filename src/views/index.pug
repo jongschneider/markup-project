@@ -9,7 +9,7 @@ block content
   //-     | #{data}
 
   form(action='/getHtml', method="GET")
-    select(name='select' id='fileChoice')
+    select(name='select')
       option(default=true ) Choose a File
       each file in data
         option(value=file) #{file}
