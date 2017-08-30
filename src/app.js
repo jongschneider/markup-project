@@ -26,38 +26,43 @@ db.connect(err => {
 });
 
 // test route to set up mysql db
-app.get('/createdb', (req, res, next) => {
-	let sql = 'CREATE DATABASE tagmysql';
-	db.query(sql, (err, result) => {
-		if (err) throw err;
-		res.send('Database created...');
-	});
-});
+// app.get('/createdb', (req, res, next) => {
+// 	let sql = 'CREATE DATABASE tagmysql';
+// 	db.query(sql, (err, result) => {
+// 		if (err) throw err;
+// 		res.send('Database created...');
+// 	});
+// });
 
 // create table
-app.get('/createpoststable', (req, res, next) => {
-	let sql =
-		'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
-	db.query(sql, (err, result) => {
+// app.get('/createpoststable', (req, res, next) => {
+// 	let sql =
+// 		'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
+// 	db.query(sql, (err, result) => {
+// 		if (err) throw err;
+// 		console.log(result);
+// 		res.send('Posts table created...');
+// 	});
+// });
+
+//add post to poststable
+app.get('/insert', (req, res, next) => {
+	let filename = 'cari_2013_03_05.html';
+	let key = filename.slice(0, filename.indexOf('_'));
+	let score = {
+		score: '15',
+		html_filenames_html_filename: filename,
+		html_filenames_html_keys_html_keyname: key
+	};
+	let sql = 'INSERT INTO scores SET ?';
+	let query = db.query(sql, score, (err, result) => {
 		if (err) throw err;
 		console.log(result);
-		res.send('Posts table created...');
+		res.send('Score inserted to table...');
 	});
 });
 
-//add post to poststable
-app.get('/insertpost1', (req, res, next) => {
-	let post = {
-		title: 'Post One',
-		body: 'This is post one.'
-	};
-	let sql = 'INSERT INTO posts SET ?';
-	let query = db.query(sql, post, (err, result) => {
-		if (err) throw err;
-		console.log(result);
-		res.send('Posts inserted to table...');
-	});
-});
+//add file score to
 
 //add post to poststable
 app.get('/insertpost2', (req, res, next) => {
