@@ -1,9 +1,12 @@
 extends layout
 
 block content
+  //- form(action="/getscores", method="POST")
+  //-   h2=
   //- form(id="", method="", action="")
   //-   input(type="text", placeholder="placeholder")
   //-   textarea(cols="50", rows="100")
   //-     | #{data}
   div(style = "white-space:PRE")
-    | #{data}
+    //- | #{data}
+    | #{data[0]}
