@@ -9,21 +9,8 @@ const flash = require('connect-flash');
 const routes = require('./routes/index');
 const errorHandlers = require('./handlers/errorHandlers');
 
-const { dbConfig } = require('./handlers/config');
-
 const app = express();
 const port = process.env.PORT || 7777;
-
-// create mySQL connection
-const db = mysql.createConnection(dbConfig);
-
-// connect to db
-db.connect(err => {
-	if (err) {
-		throw err;
-	}
-	console.log('MySql connected.');
-});
 
 // test route to set up mysql db
 // app.get('/createdb', (req, res, next) => {
@@ -87,15 +74,15 @@ app.get('/insert', (req, res, next) => {
 // });
 
 // select score data from db
-app.get('/getscore', (req, res, next) => {
-	let sql =
-		'SELECT * FROM scores WHERE html_filenames_html_keys_html_keyname="bob"';
-	let query = db.query(sql, (err, result) => {
-		if (err) throw err;
-		console.log(result);
-		res.end(JSON.stringify(result));
-	});
-});
+// app.get('/getscore', (req, res, next) => {
+// 	let sql =
+// 		'SELECT * FROM scores WHERE html_filenames_html_keys_html_keyname="bob"';
+// 	let query = db.query(sql, (err, result) => {
+// 		if (err) throw err;
+// 		console.log(result);
+// 		res.end(JSON.stringify(result));
+// 	});
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files
