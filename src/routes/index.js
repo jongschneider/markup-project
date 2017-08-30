@@ -55,8 +55,8 @@ router.get('/getHtml', async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
-
-	fs.readFile(`../data/bob_2013_03_01.html`, 'utf8', (err, result) => {
+	console.log(req.query.select);
+	fs.readFile(`../data/${req.query.select}`, 'utf8', (err, result) => {
 		console.log(result);
 		res.render('index', { data: fileList, html: result });
 	});
