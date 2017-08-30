@@ -1,9 +1,11 @@
 /*jshint esversion: 6 */
 
 const express = require('express');
+const fs = require('fs');
 const router = express.Router();
 const mysql = require('mysql');
 const { dbConfig } = require('../handlers/config');
+const { catchErrors } = require('../handlers/errorHandlers');
 
 // create mySQL connection
 const db = mysql.createConnection(dbConfig);
@@ -18,7 +20,9 @@ db.connect(err => {
 
 //homepage
 router.get('/', (req, res, next) => {
-	res.render('index');
+	fs.readFile('../data/john_2013_03_13.html', 'utf8', (err, result) => {
+		res.render('index', { data: result });
+	});
 });
 
 //
