@@ -19,20 +19,13 @@ db.connect(err => {
 	console.log('MySql connected.');
 });
 
-//homepage get html from a file
-// router.get('/', (req, res, next) => {
-// 	fs.readFile('../data/john_2013_03_13.html', 'utf8', (err, result) => {
-// 		res.render('index', { data: result });
-// 	});
-// });
-
 // homepage get list of files in data folder
+const readdir = promisify(fs.readdir);
+
 router.get('/', async (req, res, next) => {
-	const readdir = promisify(fs.readdir);
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
-	console.log(fileList);
 	res.render('index', { data: fileList });
 });
 
@@ -43,6 +36,29 @@ router.get('/getscore', (req, res, next) => {
 		if (err) throw err;
 		console.log(result);
 		res.end(JSON.stringify(result));
+	});
+});
+
+// router.get('/getHtml/:file', async (req, res, next) => {
+// const fileList = await readdir('../data/').then(files =>
+// 	files.filter(file => file.match(/.html/gi))
+// );
+// 	const createReadStream = promisify(fs.createReadStream);
+// 	const data = await createReadStream(`../data/${req.params.file}`);
+// 	const html = '';
+// 	await data.on('data', chunk => html += chunk);
+// 	res.render('index', { data: fileList, html });
+// });
+
+//homepage get html from a file
+router.get('/getHtml', async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+
+	fs.readFile(`../data/bob_2013_03_01.html`, 'utf8', (err, result) => {
+		console.log(result);
+		res.render('index', { data: fileList, html: result });
 	});
 });
 
