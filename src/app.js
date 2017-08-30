@@ -45,7 +45,7 @@ db.connect(err => {
 // 	});
 // });
 
-//add post to poststable
+//add file score to
 app.get('/insert', (req, res, next) => {
 	let filename = 'cari_2013_03_05.html';
 	let key = filename.slice(0, filename.indexOf('_'));
@@ -62,25 +62,34 @@ app.get('/insert', (req, res, next) => {
 	});
 });
 
-//add file score to
-
 //add post to poststable
-app.get('/insertpost2', (req, res, next) => {
-	let post = {
-		title: 'Post Two',
-		body: 'Postimus twoimus.'
-	};
-	let sql = 'INSERT INTO posts SET ?';
-	let query = db.query(sql, post, (err, result) => {
-		if (err) throw err;
-		console.log(result);
-		res.send('Post2 inserted to table...');
-	});
-});
+// app.get('/insertpost2', (req, res, next) => {
+// 	let post = {
+// 		title: 'Post Two',
+// 		body: 'Postimus twoimus.'
+// 	};
+// 	let sql = 'INSERT INTO posts SET ?';
+// 	let query = db.query(sql, post, (err, result) => {
+// 		if (err) throw err;
+// 		console.log(result);
+// 		res.send('Post2 inserted to table...');
+// 	});
+// });
 
 // select posts from db
-app.get('/getposts', (req, res, next) => {
-	let sql = 'SELECT * FROM posts';
+// app.get('/getposts', (req, res, next) => {
+// 	let sql = 'SELECT * FROM posts';
+// 	let query = db.query(sql, (err, result) => {
+// 		if (err) throw err;
+// 		console.log(result);
+// 		res.end(JSON.stringify(result));
+// 	});
+// });
+
+// select score data from db
+app.get('/getscore', (req, res, next) => {
+	let sql =
+		'SELECT * FROM scores WHERE html_filenames_html_keys_html_keyname="bob"';
 	let query = db.query(sql, (err, result) => {
 		if (err) throw err;
 		console.log(result);
