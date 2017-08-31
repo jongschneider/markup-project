@@ -63,6 +63,10 @@ exports.getScoresByFile = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
+	const keyList = fileList.map(keyGen).filter((v, i, a) => {
+		return a.indexOf(v) == i;
+	});
+
 	const getScoreColumns =
 		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
 	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}';`;
@@ -77,11 +81,12 @@ exports.getScoresByFile = async (req, res, next) => {
 			db.query(sql4, (err, avg) => {
 				if (err) throw err;
 				console.log(avg);
-				res.render('search_results', {
+				res.render('search_results_by_file', {
 					data: fileList,
 					results: result,
 					title: req.query.select,
-					avg: avg
+					avg: avg,
+					keyList
 				});
 			});
 		});
@@ -92,11 +97,12 @@ exports.getScoresByFile = async (req, res, next) => {
 		db.query(sql2, (err, avg) => {
 			if (err) throw err;
 			console.log(avg);
-			res.render('search_results', {
+			res.render('search_results_by_file', {
 				data: fileList,
 				results: result,
 				title: req.query.select,
-				avg: avg
+				avg: avg,
+				keyList
 			});
 		});
 	});
@@ -106,21 +112,25 @@ exports.getScoresByKey = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
+	const keyList = fileList.map(keyGen).filter((v, i, a) => {
+		return a.indexOf(v) == i;
+	});
 	const getScoreColumns =
 		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
-	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}';`;
-	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}'`;
+	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}';`;
+	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}'`;
 	const scoreData = db.query(sql1, (err, result) => {
 		if (err) throw err;
 		console.log(result);
 		db.query(sql2, (err, avg) => {
 			if (err) throw err;
 			console.log(avg);
-			res.render('search_results', {
+			res.render('search_results_by_key', {
 				data: fileList,
 				results: result,
 				title: req.query.select,
-				avg: avg
+				avg: avg,
+				keyList
 			});
 		});
 	});

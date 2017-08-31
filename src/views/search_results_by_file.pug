@@ -1,22 +1,25 @@
 extends layout
 
-block content
+include mixins/_searchForms.pug
 
-  form(action='/getscores', method="GET")
-    select(name='select')
-      option(default=true ) Choose a File
-      option(value='All Scores') All
-      each file in data
-        option(value=file) #{file}
-    button(type='submit', name='score' value='score') Search Files
-    
+block content
+  +searchForms()
+
+
+  //- form(action='/getscores', method="GET")
+  //-   select(name='select')
+  //-     option(disabled=true) Choose a File
+  //-     option(value='All Scores') All
+  //-     each file in data
+  //-       option(value=file) #{file}
+  //-   button(type='submit', name='score' value='score') Search Scores
+  //-   
   //- form(action='/getScoresByKey', method="GET")
   //-   select(name='select')
-  //-     option(default=true ) Search by Key
-  //-     option(value='*') All
+  //-     option(disabled=true) Choose a Key
   //-     each key in keyList
   //-       option(value=key) #{key}
-  //-   button(type='submit', name='score' value='score') Search Files
+  //-   button(type='submit', name='score' value='score') Search Scores
 
   h1 #{title}
   table.table.table-striped
