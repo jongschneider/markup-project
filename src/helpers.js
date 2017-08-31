@@ -1,5 +1,12 @@
 const { testTagObj } = require('./handlers/config');
 const fs = require('fs');
+const promisify = require('es6-promisify');
+
+// makes fs.readdir promise aware
+exports.readdir = promisify(fs.readdir);
+
+// makes fs.readfile promise aware
+exports.readFile = promisify(fs.readFile);
 
 exports.tagCheck = function tagCheck(str, tagObj) {
 	// check if tag is present and push array into proper property
