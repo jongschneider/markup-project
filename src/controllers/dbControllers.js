@@ -49,6 +49,39 @@ exports.homePage = async (req, res, next) => {
 	res.render('index', { data: fileList });
 };
 
+exports.searchPage = async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+	res.render('search', { data: fileList });
+};
+
+exports.getscores = async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+	const getScoreColumns =
+		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
+	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}';`;
+	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}'`;
+	const scoreData = db.query(sql1, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		db.query(sql2, (err, avg) => {
+			if (err) throw err;
+			console.log(avg);
+			res.render('search_results', {
+				data: fileList,
+				results: result,
+				title: req.query.select,
+				avg: avg
+			});
+		});
+
+		// res.end(JSON.stringify(result));
+	});
+};
+
 exports.showHtml = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
