@@ -4,20 +4,6 @@ include mixins/_searchForms.pug
 
 block content
   +searchForms()
-  //- form(action='/getscores', method="GET")
-  //-   select(name='select')
-  //-     option(default=true disabled=true) Choose a File
-  //-     option(value='All Scores') All
-  //-     each file in data
-  //-       option(value=file) #{file}
-  //-   button(type='submit', name='score' value='score') Search Scores
-  //-   
-  //- form(action='/getScoresByKey', method="GET")
-  //-   select(name='select')
-  //-     option(default=true disabled=true) Choose a Key
-  //-     each key in keyList
-  //-       option(value=key) #{key}
-  //-   button(type='submit', name='score' value='score') Search Scores
 
   h1 #{title}
   table.table.table-striped
@@ -25,12 +11,14 @@ block content
     thead
       tr
         th Date
+        th Key
         th File Name
         th Score
     tbody
       each row in results
         tr
           td #{row.score_runtime}
+          td #{row.html_filenames_html_keys_html_keyname}
           td #{row.html_filenames_html_filename}
           td #{row.score}
         tr
