@@ -10,12 +10,9 @@ html
         nav.nav
           .nav__section.nav__section--pages
             li.nav__item
-              a.nav__link.nav__link--logo(href="/")
-
-          .nav__section.nav__section--search
-            .search
-              input.search__input(type="text" placeholder="Coffee, beer..." name="search")
-              .search__results
+              a.nav__link.nav__link--logo(href="/") HOME
+            li.nav__item
+              a.nav__link.nav__link--logo(href="/search") SEARCH
 
     block messages
       if locals.flashes
