@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const { readdir, readFile } = require('../helpers');
 const fs = require('fs');
 const { tagCheck, scoreCheck, keyGen } = require('../helpers');
@@ -52,7 +53,6 @@ exports.scoreAndUpdate = (req, res, next) => {
 			if (err) throw err;
 			console.log(result);
 			next();
-			// res.send('Score inserted to table...');
 		});
 	});
 };
