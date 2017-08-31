@@ -11,6 +11,7 @@ mixin searchForms()
     label(for="keys") Choose a Key
       select(name='select' id="keys")
         option(default=true disabled) Choose a Key
+        option(value='All Scores') All
         each key in keyList
           option(value=key) #{key}
       button(type='submit', name='score' value='score') Search Scores
