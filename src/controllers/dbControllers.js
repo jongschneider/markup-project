@@ -23,7 +23,6 @@ exports.doesFileExist = (req, res, next) => {
 	let key = keyGen(filename);
 	let sql = `SELECT html_keys_html_keyname FROM html_parser.html_filenames WHERE html_filename='${req.query.select}';`;
 	let query = db.query(sql, (err, result) => {
-		console.log(result.length);
 		if (result.length === 0) {
 			let addKey = `INSERT INTO html_parser.html_keys (html_keyname) VALUE('${key}')`;
 			db.query(addKey, (err, result) => {
@@ -34,7 +33,6 @@ exports.doesFileExist = (req, res, next) => {
 				});
 			});
 			db.query(sql, (err, result) => {
-				console.log(result.length);
 				if (result.length > 0) {
 					next();
 				}
@@ -66,7 +64,7 @@ exports.showHtml = async (req, res, next) => {
 exports.scoreAndUpdate = (req, res, next) => {
 	const ms = fs.createReadStream(`../data/${req.query.select}`, 'utf8');
 	ms.on('data', chunk => {
-		let scoreObj = tagCheck(chunk, testTagObj);
+		let scoreObj = tagCheck(chunk, testTagObj());
 		let score = scoreCheck(scoreObj);
 		let filename = req.query.select;
 		let key = keyGen(filename);
