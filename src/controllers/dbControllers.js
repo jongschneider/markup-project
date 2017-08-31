@@ -73,15 +73,15 @@ exports.getScoresByFile = async (req, res, next) => {
 	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}'`;
 	const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
 	const sqlAvg =
-		'SELECT html_filenames_html_keys_html_filename, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_keys_html_filename;';
+		'SELECT html_filenames_html_filename, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_filename;';
 
 	if (req.query.select === 'All Scores') {
 		const scoreData = db.query(sql3, (err, result) => {
 			if (err) throw err;
 			console.log(result);
-			db.query(sql2, (err, avg) => {
+			db.query(sqlAvg, (err, avg) => {
 				if (err) throw err;
-				// console.log(avg);
+				console.log(avg);
 				res.render('search_results_by_file', {
 					data: fileList,
 					results: result,
