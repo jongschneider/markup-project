@@ -1,0 +1,16 @@
+mixin searchForms()
+  form(action='/getScoresByFile', method="GET")
+    label(for="files") Choose a File
+      select(name='select' id="files")
+        option(value='All Scores') All
+        each file in data
+          option(value=file) #{file}
+      button(type='submit', name='score' value='score') Search Scores
+    
+  form(action='/getScoresByKey', method="GET")
+    label(for="keys") Choose a Key
+      select(name='select' id="keys")
+        option(default=true disabled) Choose a Key
+        each key in keyList
+          option(value=key) #{key}
+      button(type='submit', name='score' value='score') Search Scores
