@@ -5,6 +5,8 @@ const fs = require('fs');
 const router = express.Router();
 const mysql = require('mysql');
 const { dbConfig } = require('../handlers/config');
+const { testTagObj } = require('../handlers/config');
+const { tagCheck, scoreCheck, keyGen } = require('../helpers');
 const { catchErrors } = require('../handlers/errorHandlers');
 const promisify = require('es6-promisify');
 
@@ -34,31 +36,43 @@ router.get('/getscore', (req, res, next) => {
 		'SELECT * FROM scores WHERE html_filenames_html_keys_html_keyname="bob"';
 	let query = db.query(sql, (err, result) => {
 		if (err) throw err;
-		console.log(result);
 		res.end(JSON.stringify(result));
 	});
 });
 
-// router.get('/getHtml/:file', async (req, res, next) => {
-// const fileList = await readdir('../data/').then(files =>
-// 	files.filter(file => file.match(/.html/gi))
-// );
-// 	const createReadStream = promisify(fs.createReadStream);
-// 	const data = await createReadStream(`../data/${req.params.file}`);
-// 	const html = '';
-// 	await data.on('data', chunk => html += chunk);
-// 	res.render('index', { data: fileList, html });
-// });
-
-//homepage get html from a file
+// homepage get html from a file
 router.get('/getHtml', async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
-	console.log(req.query.select);
 	fs.readFile(`../data/${req.query.select}`, 'utf8', (err, result) => {
-		console.log(result);
-		res.render('index', { data: fileList, html: result });
+		res.render('index', {
+			data: fileList,
+			html: result,
+			fileName: req.query.select
+		});
+	});
+});
+
+// homepage get html from a file
+router.get('/scoreFile', (req, res, next) => {
+	const ms = fs.createReadStream(`../data/${req.query.select}`, 'utf8');
+	ms.on('data', chunk => {
+		let scoreObj = tagCheck(chunk, testTagObj);
+		let score = scoreCheck(scoreObj);
+		let filename = req.query.select;
+		let key = keyGen(filename);
+		let dataObj = {
+			score,
+			html_filenames_html_filename: filename,
+			html_filenames_html_keys_html_keyname: 'john'
+		};
+		let sql = 'INSERT INTO scores SET ?';
+		let query = db.query(sql, dataObj, (err, result) => {
+			if (err) throw err;
+			console.log(result);
+			res.send('Score inserted to table...');
+		});
 	});
 });
 
