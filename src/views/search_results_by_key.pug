@@ -22,4 +22,16 @@ block content
           td #{row.html_filenames_html_filename}
           td #{row.score}
         tr
-  h3 AVG #{avg[0].avg}
+          
+  table.table.table-striped
+    caption Averages
+    thead
+      tr
+        th Unique Key
+        th Average
+    tbody
+      each row in avgs
+        tr
+          td #{row.html_filenames_html_keys_html_keyname}
+          td #{row["AVG(score)"]}
+        tr
