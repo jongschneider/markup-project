@@ -69,9 +69,9 @@ exports.getScoresByFile = async (req, res, next) => {
 
 	const getScoreColumns =
 		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
-	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}';`;
+	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select} ORDER BY html_filenames_html_keys_html_keyname ASC';`;
 	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}'`;
-	const sql3 = `SELECT ${getScoreColumns} FROM scores;`;
+	const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
 	const sql4 = 'SELECT AVG(score) AS avg FROM html_parser.scores';
 
 	if (req.query.select === 'All Scores') {
@@ -117,8 +117,28 @@ exports.getScoresByKey = async (req, res, next) => {
 	});
 	const getScoreColumns =
 		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
-	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}';`;
+	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_keys_html_keyname='${req.query.select} ORDER BY html_filenames_html_keys_html_keyname ASC';`;
 	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}'`;
+	const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	const sql4 = 'SELECT AVG(score) AS avg FROM html_parser.scores';
+
+	if (req.query.select === 'All Scores') {
+		const scoreData = db.query(sql3, (err, result) => {
+			if (err) throw err;
+			console.log(result);
+			db.query(sql4, (err, avg) => {
+				if (err) throw err;
+				console.log(avg);
+				res.render('search_results_by_key', {
+					data: fileList,
+					results: result,
+					title: req.query.select,
+					avg: avg,
+					keyList
+				});
+			});
+		});
+	}
 	const scoreData = db.query(sql1, (err, result) => {
 		if (err) throw err;
 		console.log(result);
