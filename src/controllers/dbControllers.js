@@ -53,10 +53,56 @@ exports.searchPage = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
-	res.render('search', { data: fileList });
+	const keyList = fileList.map(keyGen).filter((v, i, a) => {
+		return a.indexOf(v) == i;
+	});
+	res.render('search', { data: fileList, keyList });
 };
 
 exports.getScoresByFile = async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+	const getScoreColumns =
+		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
+	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}';`;
+	const sql2 = `SELECT AVG(score) AS avg FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}'`;
+	const sql3 = `SELECT ${getScoreColumns} FROM scores;`;
+	const sql4 = 'SELECT AVG(score) AS avg FROM html_parser.scores';
+
+	if (req.query.select === 'All Scores') {
+		const scoreData = db.query(sql3, (err, result) => {
+			if (err) throw err;
+			console.log(result);
+			db.query(sql4, (err, avg) => {
+				if (err) throw err;
+				console.log(avg);
+				res.render('search_results', {
+					data: fileList,
+					results: result,
+					title: req.query.select,
+					avg: avg
+				});
+			});
+		});
+	}
+	const scoreData = db.query(sql1, (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		db.query(sql2, (err, avg) => {
+			if (err) throw err;
+			console.log(avg);
+			res.render('search_results', {
+				data: fileList,
+				results: result,
+				title: req.query.select,
+				avg: avg
+			});
+		});
+	});
+};
+
+exports.getScoresByKey = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
@@ -77,8 +123,6 @@ exports.getScoresByFile = async (req, res, next) => {
 				avg: avg
 			});
 		});
-
-		// res.end(JSON.stringify(result));
 	});
 };
 

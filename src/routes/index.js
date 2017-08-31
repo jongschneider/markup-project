@@ -33,7 +33,10 @@ router.get('/getHtml', async (req, res, next) => {
 // searchpage get list of files in data folder
 router.get('/search', catchErrors(dbControllers.searchPage));
 
-//test get route
-router.get('/getScoresByFile', dbControllers.getScoresByFile);
+// query db for data by filename
+router.get('/getScoresByFile', catchErrors(dbControllers.getScoresByFile));
+
+// query db for data by key
+router.get('/getScoresByKey', catchErrors(dbControllers.getScoresByKey));
 
 module.exports = router;

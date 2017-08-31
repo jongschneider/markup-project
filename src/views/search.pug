@@ -4,10 +4,18 @@ block content
 
   form(action='/getScoresByFile', method="GET")
     select(name='select')
-      option(default=true ) Choose a File
+      option(default=true ) Search by File
+      option(value='All Scores') All
       each file in data
         option(value=file) #{file}
     button(type='submit', name='score' value='score') Search Files
     
+  form(action='/getScoresByKey', method="GET")
+    select(name='select')
+      option(default=true ) Search by Key
+      option(value='*') All
+      each key in keyList
+        option(value=key) #{key}
+    button(type='submit', name='score' value='score') Search Files
 
   
