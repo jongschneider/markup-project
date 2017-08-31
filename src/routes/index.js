@@ -12,6 +12,7 @@ router.get('/', catchErrors(dbControllers.homePage));
 // homepage displays html from file scored
 router.get(
 	'/scoreFile',
+	dbControllers.doesFileExist,
 	dbControllers.scoreAndUpdate,
 	catchErrors(dbControllers.showHtml)
 );
