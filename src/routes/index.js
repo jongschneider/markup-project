@@ -34,6 +34,6 @@ router.get('/getHtml', async (req, res, next) => {
 router.get('/search', catchErrors(dbControllers.searchPage));
 
 //test get route
-router.get('/getscores', dbControllers.getscores);
+router.get('/getScoresByFile', dbControllers.getScoresByFile);
 
 module.exports = router;

@@ -56,7 +56,7 @@ exports.searchPage = async (req, res, next) => {
 	res.render('search', { data: fileList });
 };
 
-exports.getscores = async (req, res, next) => {
+exports.getScoresByFile = async (req, res, next) => {
 	const fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
