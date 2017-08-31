@@ -1,0 +1,25 @@
+extends layout
+
+include mixins/_searchForms.pug
+
+block content
+  +searchForms()
+
+
+  h1 #{title}
+  table.table.table-striped
+    caption List of All Files
+    thead
+      tr
+        th Date
+        th Key
+        th File Name
+        th Score
+    tbody
+      each row in max
+        tr
+          td #{row.score_runtime}
+          td #{row.html_filenames_html_keys_html_keyname}
+          td #{row.html_filenames_html_filename}
+          td #{row.score}
+        tr

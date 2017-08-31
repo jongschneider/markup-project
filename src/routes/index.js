@@ -39,4 +39,10 @@ router.get('/getScoresByFile', catchErrors(dbControllers.getScoresByFile));
 // query db for data by key
 router.get('/getScoresByKey', catchErrors(dbControllers.getScoresByKey));
 
+// query db for data by key
+router.get('/max', catchErrors(dbControllers.getMax));
+
+// query db for data by key
+router.get('/min', catchErrors(dbControllers.getMin));
+
 module.exports = router;

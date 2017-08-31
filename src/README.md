@@ -5,8 +5,8 @@
 [x] 4. Save results to a MySQL database
 [x] 5. Method: Retrieve scores for a unique id
 [ ] 6. Method: Retrieve all scores run in the system for a custom date range
-[ ] 7. Method: Retrieve highest scored unique id
-[ ] 8. Method: Retrieve lowest scored unique id
+[x] 7. Method: Retrieve highest scored unique id
+[x] 8. Method: Retrieve lowest scored unique id
 [x] 9. Additionally you should write one query that will find the average score for all runs see project layout below
 [ ] 10. Finally, include instructions on how to get your code running. Include the version of whatever language you wrote it in, as well as what platform (windows/osx/linux, etc) you are on. This helps us get running with your code.
 

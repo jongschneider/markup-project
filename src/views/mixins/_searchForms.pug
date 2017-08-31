@@ -15,3 +15,8 @@ mixin searchForms()
         each key in keyList
           option(value=key) #{key}
       button(type='submit', name='score' value='score') Search Scores
+  
+  body
+    .btn-group.btn-group-sm
+       a.btn.btn-default(href='/max') Get Highest Scored Unique Item
+       a.btn.btn-default(href='/min') Get Lowest Scored Unique Item
