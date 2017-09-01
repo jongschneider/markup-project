@@ -4,7 +4,7 @@
 [x] 3. Score HTML content using the scoring guide
 [x] 4. Save results to a MySQL database
 [x] 5. Method: Retrieve scores for a unique id
-[ ] 6. Method: Retrieve all scores run in the system for a custom date range
+[x] 6. Method: Retrieve all scores run in the system for a custom date range
 [x] 7. Method: Retrieve highest scored unique id
 [x] 8. Method: Retrieve lowest scored unique id
 [x] 9. Additionally you should write one query that will find the average score for all runs see project layout below
