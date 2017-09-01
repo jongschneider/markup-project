@@ -29,3 +29,29 @@ exports.scoreCheck = function scoreCheck(objArray) {
 exports.keyGen = function(filename) {
 	return filename.slice(0, filename.indexOf('_'));
 };
+
+function splitter(str) {
+	return str.split('-');
+}
+
+function formatDates(dateArray) {
+	return dateArray.map(x => x.trim()).map(x => x.replace(/\//gi, '-'));
+}
+
+function flipper(arr) {
+	return arr.map(el => el.split('-'));
+}
+
+function reorient(arr) {
+	return arr.map(y => {
+		let [a, b, c] = y;
+		return [c, a, b];
+	});
+}
+
+function joiner(arr) {
+	return arr.map(s => s.join('-'));
+}
+
+exports.dateFormatter = str =>
+	joiner(reorient(flipper(formatDates(splitter(str)))));
