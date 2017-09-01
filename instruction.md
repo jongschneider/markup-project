@@ -14,7 +14,6 @@ Initial Setup:
 
 Site use
 1. Score File and Insert Into DB User Story
-*Select a file from the dropdown and click 'Score File' button
   a. Select a file from the dropdown and click 'Score File' button
   b. You will be directed to a new page with the files information, score and a printout of the content within the selected html file.
 
