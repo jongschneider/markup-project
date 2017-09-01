@@ -26,6 +26,7 @@ body:before
     max-width: 900px;
     margin: 0 auto;
 }
+
 @media all and (max-width: 900px)
 {
     .inner
@@ -855,6 +856,11 @@ label
 
     -ms-flex-pack: justify;
     justify-content: space-between;
+}
+
+.nav__section__float__right
+{
+    float: right;
 }
 .nav__section
 {

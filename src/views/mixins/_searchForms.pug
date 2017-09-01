@@ -16,7 +16,13 @@ mixin searchForms()
           option(value=key) #{key}
       button(type='submit', name='score' value='score') Search Scores
   
-  body
-    .btn-group.btn-group-sm
-       a.btn.btn-default(href='/max') Get Highest Scored Unique Item
-       a.btn.btn-default(href='/min') Get Lowest Scored Unique Item
+  .btn-group.btn-group-sm
+     a.btn.btn-default(href='/max') Get Highest Scored Unique Item
+     a.btn.btn-default(href='/min') Get Lowest Scored Unique Item
+  form(method="GET", action="/dateRange")
+    input(type='text', name='daterange')
+    script(type='text/javascript').
+     $(function() {
+     $('input[name="daterange"]').daterangepicker();
+     });
+    button(type='submit') Submit
