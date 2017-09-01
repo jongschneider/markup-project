@@ -42,11 +42,17 @@ exports.doesFileExist = (req, res, next) => {
 	});
 };
 
-exports.homePage = async (req, res, next) => {
-	const fileList = await readdir('../data/').then(files =>
+exports.getFileList = async (req, res, next) => {
+	res.locals.fileList = await readdir('../data/').then(files =>
 		files.filter(file => file.match(/.html/gi))
 	);
-	res.render('index', { data: fileList });
+	next();
+};
+exports.homePage = (req, res, next) => {
+	// const fileList = await readdir('../data/').then(files =>
+	// 	files.filter(file => file.match(/.html/gi))
+	// );
+	res.render('index', { data: res.locals.fileList });
 };
 
 exports.searchPage = async (req, res, next) => {
@@ -157,6 +163,18 @@ exports.getScoresByKey = async (req, res, next) => {
 				keyList
 			});
 		});
+	});
+};
+
+exports.getHtml = async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+	const html = await readFile(`../data/${req.query.select}`);
+	res.render('index', {
+		data: fileList,
+		html,
+		fileName: req.query.select
 	});
 };
 
