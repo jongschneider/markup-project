@@ -5,8 +5,8 @@ include mixins/_searchForms.pug
 block content
   +searchForms()
 
-  h1 #{title}
-  table.table.table-striped
+  h1 Key Name: #{title}
+  table.table.table-striped.table-hover
     caption List of All Files
     thead
       tr
@@ -23,8 +23,8 @@ block content
           td #{row.score}
         tr
           
-  table.table.table-striped
-    caption Averages
+  h1 Averages
+  table.table.table-striped.table-hover
     thead
       tr
         th Unique Key

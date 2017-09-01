@@ -21,7 +21,7 @@ mixin searchForms()
       .btn-group.btn-group-sm
          a.btn.btn-danger.btn-lg(href='/max') Get Highest Scored Unique Item
          a.btn.btn-success.btn-lg(href='/min') Get Lowest Scored Unique Item
-  form(action="/dateRange", method="GET")
+  form(action="/dateRange", method="GET" style="margin-bottom: 50px")
     .form-group
       label(for="dateRange") Select Files Within a Range of Dates
       input#dateRange(type='text', name='daterange')
