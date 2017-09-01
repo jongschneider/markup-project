@@ -6,7 +6,7 @@ BuiltUsing the following tools:
 
 
 Initial Setup
-1.Set up the database using the instructions found int 'schema/README.md'
+1.Set up the database using the instructions found in 'schema/README.md'
 2. CD into 'src' and from the terminal, run 'npm i' to install all the dependencies.
 3. Open 'src/handlers/config.js' and include your password to root on localhost to allow you to connect to your database.
 4. CD into 'src' and from the terminal, run 'npm start' to begin running in dev mode with nodemon on 'http://localhost:7777/', or use 'node app.js' to run normally
