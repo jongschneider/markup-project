@@ -1,7 +1,7 @@
 /*jshint esversion: 6 */
 const { readdir, readFile } = require('../helpers');
 const fs = require('fs');
-const { tagCheck, scoreCheck, keyGen } = require('../helpers');
+const { tagCheck, scoreCheck, keyGen, dateFormatter } = require('../helpers');
 const { testTagObj } = require('../handlers/config');
 const mysql = require('mysql');
 const { dbConfig } = require('../handlers/config');
@@ -227,6 +227,31 @@ exports.getMin = async (req, res, next) => {
 			data: fileList,
 			title: 'Min',
 			min: result,
+			keyList
+		});
+	});
+};
+
+exports.dateRange = async (req, res, next) => {
+	const fileList = await readdir('../data/').then(files =>
+		files.filter(file => file.match(/.html/gi))
+	);
+	const keyList = fileList.map(keyGen).filter((v, i, a) => {
+		return a.indexOf(v) == i;
+	});
+	const [date1, date2] = dateFormatter(req.query.daterange);
+	console.log(date1);
+	console.log(date2);
+
+	const rangeSql = `SELECT * FROM html_parser.scores WHERE score_runtime>='${date1}' && score_runtime<='${date2}';`;
+	console.log(rangeSql);
+	db.query(rangeSql, (err, result) => {
+		console.log(result);
+		if (err) throw err;
+		res.render('dateRange', {
+			data: fileList,
+			title: 'Date Ranges',
+			ranges: result,
 			keyList
 		});
 	});
