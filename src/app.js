@@ -5,84 +5,11 @@ const mysql = require('mysql');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const flash = require('connect-flash');
 const routes = require('./routes/index');
 const errorHandlers = require('./handlers/errorHandlers');
 
 const app = express();
 const port = process.env.PORT || 7777;
-
-// test route to set up mysql db
-// app.get('/createdb', (req, res, next) => {
-// 	let sql = 'CREATE DATABASE tagmysql';
-// 	db.query(sql, (err, result) => {
-// 		if (err) throw err;
-// 		res.send('Database created...');
-// 	});
-// });
-
-// create table
-// app.get('/createpoststable', (req, res, next) => {
-// 	let sql =
-// 		'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), PRIMARY KEY (id))';
-// 	db.query(sql, (err, result) => {
-// 		if (err) throw err;
-// 		console.log(result);
-// 		res.send('Posts table created...');
-// 	});
-// });
-
-//add file score to
-app.get('/insert', (req, res, next) => {
-	let filename = 'cari_2013_03_05.html';
-	let key = filename.slice(0, filename.indexOf('_'));
-	let score = {
-		score: '15',
-		html_filenames_html_filename: filename,
-		html_filenames_html_keys_html_keyname: key
-	};
-	let sql = 'INSERT INTO scores SET ?';
-	let query = db.query(sql, score, (err, result) => {
-		if (err) throw err;
-		console.log(result);
-		res.send('Score inserted to table...');
-	});
-});
-
-//add post to poststable
-// app.get('/insertpost2', (req, res, next) => {
-// 	let post = {
-// 		title: 'Post Two',
-// 		body: 'Postimus twoimus.'
-// 	};
-// 	let sql = 'INSERT INTO posts SET ?';
-// 	let query = db.query(sql, post, (err, result) => {
-// 		if (err) throw err;
-// 		console.log(result);
-// 		res.send('Post2 inserted to table...');
-// 	});
-// });
-
-// select posts from db
-// app.get('/getposts', (req, res, next) => {
-// 	let sql = 'SELECT * FROM posts';
-// 	let query = db.query(sql, (err, result) => {
-// 		if (err) throw err;
-// 		console.log(result);
-// 		res.end(JSON.stringify(result));
-// 	});
-// });
-
-// select score data from db
-// app.get('/getscore', (req, res, next) => {
-// 	let sql =
-// 		'SELECT * FROM scores WHERE html_filenames_html_keys_html_keyname="bob"';
-// 	let query = db.query(sql, (err, result) => {
-// 		if (err) throw err;
-// 		console.log(result);
-// 		res.end(JSON.stringify(result));
-// 	});
-// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views')); // this is the folder where we keep our pug files

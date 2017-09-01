@@ -1,4 +1,9 @@
 /*
+	Wes Bos's async/await error handling wrapper functions.
+	Intended for MongoDB but should work for the most part for this project.
+*/
+
+/*
   Catch Errors Handler
 
   With async/await, you need some way to catch errors
@@ -50,7 +55,7 @@ exports.developmentErrors = (err, req, res, next) => {
 		stackHighlighted: err.stack.replace(
 			/[a-z_-\d]+.js:\d+:\d+/gi,
 			'<mark>$&</mark>'
-		),
+		)
 	};
 	res.status(err.status || 500);
 	res.format({
@@ -58,7 +63,7 @@ exports.developmentErrors = (err, req, res, next) => {
 		'text/html': () => {
 			res.render('error', errorDetails);
 		}, // Form Submit, Reload the page
-		'application/json': () => res.json(errorDetails), // Ajax call, send JSON back
+		'application/json': () => res.json(errorDetails) // Ajax call, send JSON back
 	});
 };
 
@@ -71,6 +76,6 @@ exports.productionErrors = (err, req, res, next) => {
 	res.status(err.status || 500);
 	res.render('error', {
 		message: err.message,
-		error: {},
+		error: {}
 	});
 };

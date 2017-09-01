@@ -1,22 +1,6 @@
 extends layout
 
 block content
-  //- form(action="/getscores", method="POST")
-  //-   h2=
-  //- form(id="", method="", action="")
-  //-   input(type="text", placeholder="placeholder")
-  //-   textarea(cols="50", rows="100")
-  //-     | #{data}
-
-  //- form(action='/getScoresByFile', method="GET")
-  //-   .form-group
-  //-     label(for="files") Choose a File
-  //-     select#files.form-control(name='select')
-  //-       option(value='All Scores') All
-  //-       each file in data
-  //-         option(value=file) #{file}
-  //-     button(type='submit').btn.btn-primary.btn-sm Search Scores
-      
   form(action='/scoreFile', method="GET")
     .form-group
       label(for="upload") Choose a File
