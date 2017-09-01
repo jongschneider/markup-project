@@ -168,7 +168,8 @@ exports.showHtml = async (req, res, next) => {
 	res.render('index', {
 		data: fileList,
 		html,
-		fileName: req.query.select
+		fileName: req.query.select,
+		score: res.locals.score
 	});
 };
 
@@ -177,6 +178,7 @@ exports.scoreAndUpdate = (req, res, next) => {
 	ms.on('data', chunk => {
 		let scoreObj = tagCheck(chunk, testTagObj());
 		let score = scoreCheck(scoreObj);
+		res.locals.score = score;
 		let filename = req.query.select;
 		let key = keyGen(filename);
 		let dataObj = {
@@ -252,7 +254,11 @@ exports.dateRange = async (req, res, next) => {
 			data: fileList,
 			title: 'Date Ranges',
 			ranges: result,
-			keyList
+			keyList,
+			dates: {
+				date1,
+				date2
+			}
 		});
 	});
 };
