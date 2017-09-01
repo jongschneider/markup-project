@@ -1,0 +1,6 @@
+
+// Selects the average scores for each keyname
+
+SELECT html_filenames_html_keys_html_keyname, AVG(score)
+FROM html_parser.scores
+GROUP BY html_filenames_html_keys_html_keyname;
