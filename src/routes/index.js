@@ -45,4 +45,7 @@ router.get('/max', catchErrors(dbControllers.getMax));
 // query db for data by key
 router.get('/min', catchErrors(dbControllers.getMin));
 
+// query db for data by date range
+router.get('/dateRange', catchErrors(dbControllers.dateRange));
+
 module.exports = router;
