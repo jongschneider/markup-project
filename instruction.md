@@ -5,7 +5,7 @@ BuiltUsing the following tools:
 4. MySQLWorkbench v6.3.9
 
 
-Initial Setup
+Initial Setup:
 1.Set up the database using the instructions found in 'schema/README.md'
 2. CD into 'src' and from the terminal, run 'npm i' to install all the dependencies.
 3. Open 'src/handlers/config.js' and include your mysql password to root on localhost to allow you to connect to your database.
