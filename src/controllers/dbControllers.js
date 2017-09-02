@@ -72,17 +72,18 @@ exports.searchPage = (req, res, next) => {
 };
 
 exports.getScoresByFile = (req, res, next) => {
-	const getScoreColumns =
-		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
-	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
-	const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
-	const sqlTotalAvg =
-		'SELECT html_filenames_html_filename, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_filename;';
-	const sqlAvg = `SELECT html_filenames_html_filename, AVG(score) FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	// const getScoreColumns =
+	// 	'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
+	// const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_filename='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	// const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	// const sqlTotalAvg =
+	// 	'SELECT html_filenames_html_filename, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_filename;';
+	// const sqlAvg = `SELECT html_filenames_html_filename, AVG(score) FROM html_parser.scores WHERE html_filenames_html_filename='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
 	if (req.query.select === 'All Scores') {
-		const scoreData = db.query(sql3, (err, result) => {
+		// const scoreData = db.query(sql3, (err, result) => {
+		const scoreData = db.query(db_queries.getAllScores, (err, result) => {
 			if (err) throw err;
-			db.query(sqlTotalAvg, (err, avg) => {
+			db.query(db_queries.getAllScoresAvgByFilename, (err, avg) => {
 				if (err) throw err;
 				res.render('search_results_by_file', {
 					data: res.locals.fileList,
@@ -94,33 +95,41 @@ exports.getScoresByFile = (req, res, next) => {
 			});
 		});
 	}
-	const scoreData = db.query(sql1, (err, result) => {
-		if (err) throw err;
-		db.query(sqlAvg, (err, avg) => {
+	const scoreData = db.query(
+		db_queries.getScoresByFilename(req.query.select),
+		(err, result) => {
 			if (err) throw err;
-			res.render('search_results_by_file', {
-				data: res.locals.fileList,
-				results: result,
-				title: req.query.select,
-				avgs: avg,
-				keyList: res.locals.keyList
-			});
-		});
-	});
+			db.query(
+				db_queries.getScoresByFilenameAvg(req.query.select),
+				(err, avg) => {
+					if (err) throw err;
+					res.render('search_results_by_file', {
+						data: res.locals.fileList,
+						results: result,
+						title: req.query.select,
+						avgs: avg,
+						keyList: res.locals.keyList
+					});
+				}
+			);
+		}
+	);
 };
 
 exports.getScoresByKey = (req, res, next) => {
-	const getScoreColumns =
-		'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
-	const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
-	const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
-	const sqlAvg = `SELECT html_filenames_html_keys_html_keyname, AVG(score) FROM html_parser.scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}';`;
-	const sqlTotalAvg =
-		'SELECT html_filenames_html_keys_html_keyname, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_keys_html_keyname;';
+	// const getScoreColumns =
+	// 	'score_runtime, html_filenames_html_filename, score, html_filenames_html_keys_html_keyname';
+	// const sql1 = `SELECT ${getScoreColumns} FROM scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}' ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	// const sql3 = `SELECT ${getScoreColumns} FROM scores ORDER BY html_filenames_html_keys_html_keyname ASC;`;
+	// const sqlAvg = `SELECT html_filenames_html_keys_html_keyname, AVG(score) FROM html_parser.scores WHERE html_filenames_html_keys_html_keyname='${req.query.select}';`;
+	// const sqlTotalAvg =
+	// 	'SELECT html_filenames_html_keys_html_keyname, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_keys_html_keyname;';
 	if (req.query.select === 'All Scores') {
-		const scoreData = db.query(sql3, (err, result) => {
+		// const scoreData = db.query(sql3, (err, result) => {
+		const scoreData = db.query(db_queries.getAllScores, (err, result) => {
 			if (err) throw err;
-			db.query(sqlTotalAvg, (err, avg) => {
+			// db.query(sqlTotalAvg, (err, avg) => {
+			db.query(db_queries.sqlTotalAvgByKey, (err, avg) => {
 				if (err) throw err;
 				res.render('search_results_by_key', {
 					data: res.locals.fileList,
@@ -132,19 +141,24 @@ exports.getScoresByKey = (req, res, next) => {
 			});
 		});
 	}
-	const scoreData = db.query(sql1, (err, result) => {
-		if (err) throw err;
-		db.query(sqlAvg, (err, avg) => {
+	// const scoreData = db.query(sql1, (err, result) => {
+	const scoreData = db.query(
+		db_queries.getScoresByKeyname(req.query.select),
+		(err, result) => {
 			if (err) throw err;
-			res.render('search_results_by_key', {
-				data: res.locals.fileList,
-				results: result,
-				title: req.query.select,
-				avgs: avg,
-				keyList: res.locals.keyList
+			// db.query(sqlAvg, (err, avg) => {
+			db.query(db_queries.sqlAvgByKey(req.query.select), (err, avg) => {
+				if (err) throw err;
+				res.render('search_results_by_key', {
+					data: res.locals.fileList,
+					results: result,
+					title: req.query.select,
+					avgs: avg,
+					keyList: res.locals.keyList
+				});
 			});
-		});
-	});
+		}
+	);
 };
 
 exports.showHtml = async (req, res, next) => {
