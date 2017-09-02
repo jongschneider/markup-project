@@ -224,8 +224,9 @@ exports.getMin = (req, res, next) => {
 
 exports.dateRange = (req, res, next) => {
 	const [date1, date2] = dateFormatter(req.query.daterange);
-	const rangeSql = `SELECT * FROM html_parser.scores WHERE score_runtime>='${date1}' && score_runtime<='${date2}';`;
-	db.query(rangeSql, (err, result) => {
+	// const rangeSql = `SELECT * FROM html_parser.scores WHERE score_runtime>='${date1}' && score_runtime<='${date2}';`;
+	// db.query(rangeSql, (err, result) => {
+	db.query(db_queries.rangeSql(date1, date2), (err, result) => {
 		if (err) throw err;
 		res.render('dateRange', {
 			data: res.locals.fileList,

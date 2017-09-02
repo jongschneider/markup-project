@@ -40,3 +40,7 @@ exports.max =
 //
 exports.min =
 	'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MIN(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
+
+//
+exports.rangeSql = (date1, date2) =>
+	`SELECT * FROM html_parser.scores WHERE score_runtime>='${date1}' && score_runtime<='${date2}';`;
