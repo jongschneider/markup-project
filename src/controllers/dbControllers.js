@@ -32,11 +32,11 @@ exports.doesFileExist = (req, res, next) => {
 			});
 			db.query(db_queries.checkIfFileExists(filename), (err, result) => {
 				if (result.length > 0) {
-					next();
+					return next();
 				}
 			});
 		}
-		next();
+		return next();
 	});
 };
 
@@ -54,7 +54,7 @@ exports.scoreAndUpdate = (req, res, next) => {
 		};
 		let query = db.query(db_queries.insertPre, dataObj, (err, result) => {
 			if (err) throw err;
-			next();
+			return next();
 		});
 	});
 };
