@@ -32,3 +32,11 @@ exports.sqlAvgByKey = key =>
 
 exports.sqlTotalAvgByKey =
 	'SELECT html_filenames_html_keys_html_keyname, AVG(score) FROM html_parser.scores GROUP BY html_filenames_html_keys_html_keyname;';
+
+//
+exports.max =
+	'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MAX(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
+
+//
+exports.min =
+	'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MIN(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';

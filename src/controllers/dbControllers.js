@@ -193,9 +193,10 @@ exports.scoreAndUpdate = (req, res, next) => {
 };
 
 exports.getMax = (req, res, next) => {
-	const max =
-		'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MAX(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
-	db.query(max, (err, result) => {
+	// const max =
+	// 	'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MAX(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
+	// db.query(max, (err, result) => {
+	db.query(db_queries.max, (err, result) => {
 		if (err) throw err;
 		res.render('max', {
 			data: res.locals.fileList,
@@ -207,9 +208,10 @@ exports.getMax = (req, res, next) => {
 };
 
 exports.getMin = (req, res, next) => {
-	const min =
-		'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MIN(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
-	db.query(min, (err, result) => {
+	// const min =
+	// 	'SELECT html_filenames_html_filename, score_runtime, html_filenames_html_keys_html_keyname, score FROM html_parser.scores WHERE score=(SELECT MIN(score) FROM html_parser.scores) ORDER BY score_runtime DESC;';
+	// db.query(min, (err, result) => {
+	db.query(db_queries.min, (err, result) => {
 		if (err) throw err;
 		res.render('min', {
 			data: res.locals.fileList,
