@@ -5,7 +5,7 @@ const { tagCheck, scoreCheck, keyGen, dateFormatter } = require('../helpers');
 const { testTagObj } = require('../handlers/config');
 const mysql = require('mysql');
 const { dbConfig } = require('../handlers/config');
-
+const db_queries = require('../handlers/db_queries');
 // create mySQL connection
 const db = mysql.createConnection(dbConfig);
 
@@ -21,25 +21,29 @@ db.connect(err => {
 exports.doesFileExist = (req, res, next) => {
 	let filename = req.query.select;
 	let key = keyGen(filename);
-	let sql = `SELECT html_keys_html_keyname FROM html_parser.html_filenames WHERE html_filename='${req.query.select}';`;
-	let query = db.query(sql, (err, result) => {
-		if (result.length === 0) {
-			let addKey = `INSERT INTO html_parser.html_keys (html_keyname) VALUE('${key}')`;
-			db.query(addKey, (err, result) => {
-				if (err) throw err;
-				let addFile = `INSERT INTO html_parser.html_filenames (html_filename, html_keys_html_keyname) VALUE('${filename}','${key}')`;
-				db.query(addFile, (err, result) => {
+	// let sql = `SELECT html_keys_html_keyname FROM html_parser.html_filenames WHERE html_filename='${req.query.select}';`;
+	// let query = db.query(sql, (err, result) => {
+	let query = db.query(
+		db_queries.checkIfFileExists(filename),
+		(err, result) => {
+			if (result.length === 0) {
+				// let addKey = `INSERT INTO html_parser.html_keys (html_keyname) VALUE('${key}')`;
+				db.query(db_queries.addKey(key), (err, result) => {
 					if (err) throw err;
+					// let addFile = `INSERT INTO html_parser.html_filenames (html_filename, html_keys_html_keyname) VALUE('${filename}','${key}')`;
+					db.query(db_queries.addFile(filename, key), (err, result) => {
+						if (err) throw err;
+					});
 				});
-			});
-			db.query(sql, (err, result) => {
-				if (result.length > 0) {
-					next();
-				}
-			});
+				db.query(db_queries.checkIfFileExists(filename), (err, result) => {
+					if (result.length > 0) {
+						next();
+					}
+				});
+			}
+			next();
 		}
-		next();
-	});
+	);
 };
 
 exports.getFileList = async (req, res, next) => {

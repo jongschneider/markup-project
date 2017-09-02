@@ -1,7 +1,7 @@
 exports.dbConfig = {
 	host: 'localhost',
 	user: 'root',
-	password: '',
+	password: '1q2w3e!@#',
 	database: 'html_parser'
 };
 
