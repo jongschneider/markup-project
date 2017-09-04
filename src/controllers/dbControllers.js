@@ -6,8 +6,6 @@ const { testTagObj } = require('../handlers/config');
 const mysql = require('mysql');
 const { dbConfig } = require('../handlers/config');
 const db_queries = require('../handlers/db_queries');
-const promisify = require('es6-promisify');
-
 // create mySQL connection
 const db = mysql.createConnection(dbConfig);
 
@@ -19,43 +17,26 @@ db.connect(err => {
 	console.log('MySql connected.');
 });
 
-// Make the following mySql db functions promise aware.
-const dbQuery = promisify(db.query);
-
 //check if html file is in the Database
-// exports.doesFileExist = (req, res, next) => {
-// 	let filename = req.query.select;
-// 	res.locals.filename = filename;
-// 	let key = keyGen(filename);
-// 	db.query(db_queries.checkIfFileExists(filename), (err, result) => {
-// 		if (result.length === 0) {
-// 			db.query(db_queries.addKey(key), (err, result) => {
-// 				if (err) throw err;
-// 				db.query(db_queries.addFile(filename, key), (err, result) => {
-// 					if (err) throw err;
-// 				});
-// 			});
-// 			db.query(db_queries.checkIfFileExists(filename), (err, result) => {
-// 				if (result.length > 0) {
-// 					return next();
-// 				}
-// 			});
-// 		}
-// 		return next();
-// 	});
-// };
-exports.doesFileExist = async (req, res, next) => {
-	let filename = req.query.select;
+exports.doesFileExist = (req, res, next) => {
+	let filename = req.body.select;
 	res.locals.filename = filename;
 	let key = keyGen(filename);
-	const doesExist = await dbQuery(db_queries.checkIfFileExists(filename));
-	console.log('doesExist: ', doesExist);
-	doesExist.then(async function(x) {
-		console.log('x: ', x);
-		if (x.length <= 0) {
-			await dbQuery(db_queries.addKey(key));
-			await dbQuery(db_queries.addFile(filename, key));
+	db.query(db_queries.checkIfFileExists(filename), (err, result) => {
+		if (result.length === 0) {
+			db.query(db_queries.addKey(key), (err, result) => {
+				if (err) throw err;
+				db.query(db_queries.addFile(filename, key), (err, result) => {
+					if (err) throw err;
+				});
+			});
+			db.query(db_queries.checkIfFileExists(filename), (err, result) => {
+				if (result.length > 0) {
+					return next();
+				}
+			});
 		}
+		return next();
 	});
 };
 

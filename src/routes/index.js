@@ -10,9 +10,9 @@ const dbControllers = require('../controllers/dbControllers');
 router.get('/', catchErrors(dbControllers.getFileList), dbControllers.homePage);
 
 // homepage displays html from file scored
-router.get(
+router.post(
 	'/scoreFile',
-	catchErrors(dbControllers.doesFileExist),
+	dbControllers.doesFileExist,
 	dbControllers.scoreAndUpdate,
 	catchErrors(dbControllers.getFileList),
 	catchErrors(dbControllers.showHtml)
