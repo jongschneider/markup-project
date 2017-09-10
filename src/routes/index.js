@@ -42,7 +42,7 @@ router.get(
 	dbControllers.getScoresByKey
 );
 
-// query db for data by key
+// query db for max
 router.get(
 	'/max',
 	catchErrors(dbControllers.getFileList),
@@ -50,7 +50,7 @@ router.get(
 	dbControllers.getMax
 );
 
-// query db for data by key
+// query db for min
 router.get(
 	'/min',
 	catchErrors(dbControllers.getFileList),
