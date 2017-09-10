@@ -12,6 +12,7 @@ exports.tagCheck = function tagCheck(str, tagObj) {
 	// check if tag is present and push array into proper property
 	tagObj.map(tag => {
 		let regex = new RegExp('<' + tag.name, 'gi');
+		// let regex = new RegExp(`<${tag.name}`, 'gi');
 		if (str.match(regex)) {
 			tag.count = str.match(regex).length;
 			tag.tagScore = tag.count * tag.scoreModifier;
