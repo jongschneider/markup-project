@@ -38,7 +38,7 @@ function formatDates(dateArray) {
 	return dateArray.map(x => x.trim()).map(x => x.replace(/\//gi, '-'));
 }
 
-function flipper(arr) {
+function mapSplit(arr) {
 	return arr.map(el => el.split('-'));
 }
 
@@ -54,4 +54,4 @@ function joiner(arr) {
 }
 
 exports.dateFormatter = str =>
-	joiner(reorient(flipper(formatDates(splitter(str)))));
+	joiner(reorient(mapSplit(formatDates(splitter(str)))));
