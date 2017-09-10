@@ -4,6 +4,9 @@
 exports.checkIfFileExists = filename =>
 	`SELECT html_keys_html_keyname FROM html_parser.html_filenames WHERE html_filename='${filename}';`;
 
+exports.checkIfKeyExists = keyname =>
+	`SELECT html_keys_html_keyname FROM html_parser.html_filenames WHERE html_keys_html_keyname='${keyname}';`;
+
 exports.addKey = key =>
 	`INSERT INTO html_parser.html_keys (html_keyname) VALUE('${key}')`;
 
