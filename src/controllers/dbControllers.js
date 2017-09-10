@@ -23,7 +23,6 @@ exports.doesFileExist = (req, res, next) => {
 	res.locals.filename = filename;
 	let key = keyGen(filename);
 	db.query(db_queries.checkIfKeyExists(key), (err, result) => {
-		console.log('keylength: ', result.length);
 		if (result.length == 0) {
 			db.query(db_queries.addKey(key), (err, result) => {
 				if (err) throw err;
@@ -31,7 +30,6 @@ exports.doesFileExist = (req, res, next) => {
 			});
 		}
 		db.query(db_queries.checkIfFileExists(filename), (err, result) => {
-			console.log('files: ', result.length);
 			if (result.length == 0) {
 				db.query(db_queries.addFile(filename, key), (err, result) => {
 					if (err) throw err;
