@@ -30,7 +30,7 @@ router.get(
 router.get(
 	'/getScoresByFile',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.getScoresByFile
 );
 
@@ -38,7 +38,7 @@ router.get(
 router.get(
 	'/getScoresByKey',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.getScoresByKey
 );
 
@@ -46,7 +46,7 @@ router.get(
 router.get(
 	'/max',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.getMax
 );
 
@@ -54,7 +54,7 @@ router.get(
 router.get(
 	'/min',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.getMin
 );
 
@@ -62,7 +62,7 @@ router.get(
 router.get(
 	'/dateRange',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.dateRange
 );
 

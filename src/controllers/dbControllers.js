@@ -22,6 +22,7 @@ exports.doesFileExist = (req, res, next) => {
 	let filename = req.body.select;
 	res.locals.filename = filename;
 	let key = keyGen(filename);
+	res.locals.key = key;
 	db.query(db_queries.checkIfFileExists(filename), (err, result) => {
 		if (err) throw err;
 		if (result.length == 0) {
@@ -54,11 +55,10 @@ exports.scoreAndUpdate = (req, res, next) => {
 		let scoreObj = tagCheck(chunk, testTagObj());
 		let score = scoreCheck(scoreObj);
 		res.locals.score = score;
-		let key = keyGen(res.locals.filename);
 		let dataObj = {
 			score,
 			html_filenames_html_filename: res.locals.filename,
-			html_filenames_html_keys_html_keyname: key
+			html_filenames_html_keys_html_keyname: res.locals.key
 		};
 		let query = db.query(db_queries.insertPre, dataObj, (err, result) => {
 			if (err) throw err;
@@ -86,7 +86,7 @@ exports.getFileList = async (req, res, next) => {
 };
 
 // create key from files list and filter out duplicates
-exports.getKeyList = async (req, res, next) => {
+exports.getKeyList = (req, res, next) => {
 	res.locals.keyList = res.locals.fileList.map(keyGen).filter((v, i, a) => {
 		return a.indexOf(v) == i;
 	});
