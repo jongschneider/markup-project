@@ -22,7 +22,7 @@ router.post(
 router.get(
 	'/search',
 	catchErrors(dbControllers.getFileList),
-	catchErrors(dbControllers.getKeyList),
+	dbControllers.getKeyList,
 	dbControllers.searchPage
 );
 
