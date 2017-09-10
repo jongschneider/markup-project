@@ -22,23 +22,30 @@ exports.doesFileExist = (req, res, next) => {
 	let filename = req.body.select;
 	res.locals.filename = filename;
 	let key = keyGen(filename);
-	db.query(db_queries.checkIfKeyExists(key), (err, result) => {
+	db.query(db_queries.checkIfFileExists(filename), (err, result) => {
+		if (err) throw err;
 		if (result.length == 0) {
-			db.query(db_queries.addKey(key), (err, result) => {
+			db.query(db_queries.checkIfKeyExists(key), (err, result) => {
 				if (err) throw err;
-				return result;
+				if (result.length == 0) {
+					db.query(db_queries.addKey(key), (err, result) => {
+						if (err) throw err;
+						db.query(db_queries.addFile(filename, key), (err, result) => {
+							if (err) throw err;
+							return next();
+						});
+					});
+				} else {
+					db.query(db_queries.addFile(filename, key), (err, result) => {
+						if (err) throw err;
+						return next();
+					});
+				}
 			});
+		} else {
+			return next();
 		}
-		db.query(db_queries.checkIfFileExists(filename), (err, result) => {
-			if (result.length == 0) {
-				db.query(db_queries.addFile(filename, key), (err, result) => {
-					if (err) throw err;
-					return result;
-				});
-			}
-		});
 	});
-	return next();
 };
 
 exports.scoreAndUpdate = (req, res, next) => {
